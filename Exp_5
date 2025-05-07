@@ -1,0 +1,130 @@
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dialog Boxes and Menus"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/heading"
+        android:layout_marginBottom="30dp" />
+
+    <Button
+        android:id="@+id/alertdialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:layout_marginTop="60dp"
+        android:text="Show Alert Dialog"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/customdialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alertdialog"
+        android:layout_marginTop="20dp"
+        android:text="Show Custom Dialog"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/customdialog"
+        android:layout_marginTop="20dp"
+        android:text="Show Popup Menu"
+        android:textSize="30dp" />
+
+</RelativeLayout>
+custom_dialog.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is a custom dialog!"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.buttons;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.PopupMenu;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button alertbt, custombt, popupbt;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        alertbt = findViewById(R.id.alertdialog);
+        custombt = findViewById(R.id.customdialog);
+        popupbt = findViewById(R.id.popup);
+
+        // Alert Dialog
+        alertbt.setOnClickListener(view -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Alert Dialog Box")
+                    .setMessage("Alert! You are in an Alert Dialog Box")
+                    .setPositiveButton("OK", null)
+                    .show();
+        });
+
+        // Custom Dialog
+        custombt.setOnClickListener(view -> {
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.custom_dialog);
+            dialog.setCancelable(true);
+            dialog.show();
+        });
+
+        // Popup Menu
+        popupbt.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, popupbt);
+            popupMenu.getMenu().add("Settings");
+            popupMenu.getMenu().add("Home");
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                // Add actions here if needed
+                return true;
+            });
+
+            popupMenu.show();
+        });
+    }
+}
