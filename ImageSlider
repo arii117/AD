@@ -1,0 +1,55 @@
+settings.gradle.kts
+maven { url = uri("https://jitpack.io") }
+build.gradle.kts
+implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:iss_auto_cycle="true"
+        app:iss_period="1000"
+        app:iss_delay="1000"
+        app:iss_text_align="center" />
+
+</RelativeLayout>
+
+MainActivity.java
+
+package com.example.imagesliderapp;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageSlider imageSlider = findViewById(R.id.slider);
+        List<SlideModel> imageList = new ArrayList<>();
+
+        imageList.add(new SlideModel(R.drawable.one, ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.two, ScaleTypes.CENTER_CROP));
+        imageList.add(new SlideModel(R.drawable.three, ScaleTypes.CENTER_CROP));
+
+        imageSlider.setImageList(imageList);
+    }
+}
